@@ -19,24 +19,15 @@ package de.danielbechler.diff.introspection;
 import de.danielbechler.diff.access.PropertyAwareAccessor;
 import de.danielbechler.diff.selector.BeanPropertyElementSelector;
 import de.danielbechler.util.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 
 public class PropertyAccessor implements PropertyAwareAccessor
 {
-	private static final Logger logger = LoggerFactory.getLogger(PropertyAccessor.class);
-
 	private final String propertyName;
 	private final Class<?> type;
 	private final Method readMethod;
@@ -56,7 +47,6 @@ public class PropertyAccessor implements PropertyAwareAccessor
 	{
 		if (method != null && !method.isAccessible())
 		{
-			logger.debug("Making method accessible: {}", method.toString());
 			method.setAccessible(true);
 		}
 		return method;
@@ -103,7 +93,6 @@ public class PropertyAccessor implements PropertyAwareAccessor
 			}
 			else
 			{
-				logger.debug("Cannot find propertyName: {}, declaring class: {}", propertyName, clazz);
 				return new LinkedHashSet<Annotation>(0);
 			}
 		}
@@ -184,12 +173,9 @@ public class PropertyAccessor implements PropertyAwareAccessor
 	{
 		if (target == null)
 		{
-			logger.info("Couldn't set new value '{}' for property '{}' " +
-					"because the target object is null", value, propertyName);
 		}
 		else if (writeMethod == null)
 		{
-			logger.debug("No setter found for property '{}'", propertyName);
 			tryToReplaceContentOfCollectionTypes(target, value);
 		}
 		else
@@ -220,7 +206,6 @@ public class PropertyAccessor implements PropertyAwareAccessor
 				return;
 			}
 		}
-		logger.info("Couldn't set new value '{}' for property '{}'", value, propertyName);
 	}
 
 	private void invokeWriteMethod(final Object target, final Object value)
@@ -250,7 +235,6 @@ public class PropertyAccessor implements PropertyAwareAccessor
 		}
 		catch (final Exception unmodifiable)
 		{
-			logger.debug("Failed to replace content of existing Collection", unmodifiable);
 			return false;
 		}
 	}
@@ -270,7 +254,6 @@ public class PropertyAccessor implements PropertyAwareAccessor
 		}
 		catch (final Exception unmodifiable)
 		{
-			logger.debug("Failed to replace content of existing Map", unmodifiable);
 			return false;
 		}
 	}

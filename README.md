@@ -9,7 +9,7 @@
 
 ## Features
 
-* Works out-of-the-box with with almost any kind of object and arbitrarily deep nesting
+* Works out-of-the-box with almost any kind of object and arbitrarily deep nesting
 * Finds the differences between two objects
 * Returns the differences in shape of an easily traversable tree structure
 * Tells you everything there is to know about the detected changes

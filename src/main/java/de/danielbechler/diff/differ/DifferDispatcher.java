@@ -32,8 +32,6 @@ import de.danielbechler.diff.node.DiffNode;
 import de.danielbechler.diff.path.NodePath;
 import de.danielbechler.diff.selector.ElementSelector;
 import de.danielbechler.util.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static de.danielbechler.diff.circular.CircularReferenceDetector.CircularReferenceException;
 
@@ -42,7 +40,6 @@ import static de.danielbechler.diff.circular.CircularReferenceDetector.CircularR
  */
 public class DifferDispatcher
 {
-	private static final Logger logger = LoggerFactory.getLogger(DifferDispatcher.class);
 	private final DifferProvider differProvider;
 	private final CircularReferenceDetectorFactory circularReferenceDetectorFactory;
 	private final CircularReferenceExceptionHandler circularReferenceExceptionHandler;
@@ -205,7 +202,6 @@ public class DifferDispatcher
 	protected static void forgetInstances(final DiffNode parentNode, final Instances instances)
 	{
 		final NodePath nodePath = getNodePath(parentNode, instances);
-		logger.debug("[ {} ] Forgetting --- WORKING: {} <=> BASE: {}", nodePath, instances.getWorking(), instances.getBase());
 		workingThreadLocal.get().remove(instances.getWorking());
 		baseThreadLocal.get().remove(instances.getBase());
 	}
@@ -227,7 +223,6 @@ public class DifferDispatcher
 	protected static void rememberInstances(final DiffNode parentNode, final Instances instances)
 	{
 		final NodePath nodePath = getNodePath(parentNode, instances);
-		logger.debug("[ {} ] Remembering --- WORKING: {} <=> BASE: {}", nodePath, instances.getWorking(), instances.getBase());
 		transactionalPushToCircularReferenceDetectors(nodePath, instances);
 	}
 

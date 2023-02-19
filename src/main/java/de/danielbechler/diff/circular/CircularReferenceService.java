@@ -18,15 +18,12 @@ package de.danielbechler.diff.circular;
 
 import de.danielbechler.diff.ObjectDifferBuilder;
 import de.danielbechler.diff.node.DiffNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Daniel Bechler
  */
 public class CircularReferenceService implements CircularReferenceConfigurer, CircularReferenceDetectorFactory, CircularReferenceExceptionHandler
 {
-	private static final Logger logger = LoggerFactory.getLogger(CircularReferenceService.class);
 	private final ObjectDifferBuilder objectDifferBuilder;
 
 	private CircularReferenceMatchingMode circularReferenceMatchingMode = CircularReferenceMatchingMode.EQUALITY_OPERATOR;
@@ -37,7 +34,6 @@ public class CircularReferenceService implements CircularReferenceConfigurer, Ci
 			final String message = "Detected circular reference in node at path {}. "
 					+ "Going deeper would cause an infinite loop, so I'll stop looking at "
 					+ "this instance along the current path.";
-			logger.warn(message, node.getPath());
 		}
 	};
 

@@ -28,7 +28,7 @@ import de.danielbechler.diff.ObjectDifferBuilder;
  * way objects will be considered to be "the same" whenever `equals` returns `true`.
  * <p/>
  * This configuration interface also allows to register a custom handler for exception thrown, whenever a circular
- * reference is detected. The default handler simply logs a warning.
+ * reference is detected.
  *
  * @author Daniel Bechler
  */

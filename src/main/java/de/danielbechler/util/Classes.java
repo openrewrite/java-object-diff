@@ -16,9 +16,6 @@
 
 package de.danielbechler.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
@@ -40,7 +37,6 @@ import static java.util.Arrays.asList;
 
 public final class Classes
 {
-	private static final Logger logger = LoggerFactory.getLogger(Classes.class);
 	private static final Set<Class<?>> PRIMITIVE_WRAPPER_TYPES = getPrimitiveWrapperTypes();
 	private static final Collection<Class<?>> PRIMITIVE_NUMERIC_TYPES = getPrimitiveNumericTypes();
 	//	private static final List<?> COMPARABLE_TYPES = Arrays.asList(
@@ -180,8 +176,6 @@ public final class Classes
 		}
 		catch (final NoSuchMethodException e)
 		{
-			logger.debug("Missing default constructor for type {}. Assuming standard default values " +
-					"for primitive properties.", clazz.getName());
 			return null;
 		}
 		final boolean accessibility = constructor.isAccessible();
