@@ -4,6 +4,7 @@ plugins {
 }
 
 group = "org.openrewrite.tools"
+description = "Fork of object differ with the logging removed"
 
 dependencies {
     testImplementation("org.spockframework:spock-core:1.2-groovy-2.5")
