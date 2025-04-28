@@ -11,3 +11,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:latest.release")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:latest.release")
 }
+
+tasks.test {
+    dependsOn(tasks.jar)
+}
