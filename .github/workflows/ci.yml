@@ -4,12 +4,12 @@ name: ci
 on:
   push:
     branches:
-      - master
+      - main
     tags-ignore:
       - "*"
   pull_request:
     branches:
-      - master
+      - main
   workflow_dispatch: {}
   schedule:
     - cron: 0 18 * * *
@@ -21,11 +21,6 @@ concurrency:
 jobs:
   build:
     uses: openrewrite/gh-automation/.github/workflows/ci-gradle.yml@main
-    with:
-      # This repository's default branch is master, which ci-gradle.yml's snapshot step
-      # does not match; the publish-snapshots job below covers it instead. Opting out
-      # here keeps the two from both firing if that condition is ever broadened.
-      publish_snapshots: false
     secrets:
       gradle_enterprise_access_key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       sonatype_username: ${{ secrets.SONATYPE_USERNAME }}
@@ -37,28 +32,3 @@ jobs:
       cgp_aws_secret_access_key: ${{ secrets.CGP_AWS_SECRET_ACCESS_KEY }}
       cgp_artifacts_maven_username: ${{ secrets.CGP_ARTIFACTS_MAVEN_USERNAME }}
       cgp_artifacts_maven_token: ${{ secrets.CGP_ARTIFACTS_MAVEN_TOKEN }}
-
-  publish-snapshots:
-    needs: build
-    if: >
-      github.event_name == 'push' &&
-      github.ref == 'refs/heads/master' &&
-      github.repository_owner == 'openrewrite'
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    env:
-      ORG_GRADLE_PROJECT_codegenomeUsername: ${{ secrets.CGP_ARTIFACTS_MAVEN_USERNAME }}
-      ORG_GRADLE_PROJECT_codegenomePassword: ${{ secrets.CGP_ARTIFACTS_MAVEN_TOKEN }}
-    steps:
-      - uses: openrewrite/gh-automation/.github/actions/setup@main
-        with:
-          develocity_access_key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-
-      - uses: openrewrite/gh-automation/.github/actions/publish-snapshots@main
-        with:
-          sonatype_username: ${{ secrets.SONATYPE_USERNAME }}
-          sonatype_token: ${{ secrets.SONATYPE_TOKEN }}
-          ossrh_signing_key: ${{ secrets.OSSRH_SIGNING_KEY }}
-          ossrh_signing_password: ${{ secrets.OSSRH_SIGNING_PASSWORD }}
-          cgp_aws_access_key_id: ${{ secrets.CGP_AWS_ACCESS_KEY_ID }}
-          cgp_aws_secret_access_key: ${{ secrets.CGP_AWS_SECRET_ACCESS_KEY }}
