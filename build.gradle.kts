@@ -1,6 +1,6 @@
 plugins {
     groovy
-    id("org.openrewrite.build.recipe-library") version "1.8.1"
+    id("org.openrewrite.build.recipe-library") version "latest.release"
 }
 
 group = "org.openrewrite.tools"
@@ -15,3 +15,9 @@ dependencies {
 tasks.test {
     dependsOn(tasks.jar)
 }
+
+// This fork publishes to the Code Genome Project only. The Sonatype repository and staging tasks come
+// from the recipe-library convention plugin; disabling them leaves `publish` targeting just the `cgp`
+// repository, and lets the shared publish workflow keep invoking closeAndReleaseSonatypeStagingRepository.
+tasks.matching { it.name.contains("Sonatype") || it.name.contains("StagingRepositories") }
+    .configureEach { enabled = false }
